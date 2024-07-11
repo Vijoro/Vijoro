@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies and run build
         working-directory: frontend
         run: |
-          npm install
+          npm ci
           npm run build
 
 
@@ -58,5 +58,5 @@ jobs:
       - name: Install dependencies and run build
         working-directory: backend
         run: |
-            npm install
+            npm ci
             npm run build
