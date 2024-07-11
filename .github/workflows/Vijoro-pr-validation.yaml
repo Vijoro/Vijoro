@@ -6,8 +6,8 @@ on:
 # *** Jobs can be refined with matrix-strategies ***
 jobs:
   # Verify frontend that the build runs locally before push to prod
-  build-and-run-validation:
-    name: Build and validate frontend(Pre-Production)
+  build-and-run-frontend:
+    name: Build and validate frontend(Pre-production)
     runs-on: ubuntu-latest
     steps:
         # Step 1: Checkout frontend repository
