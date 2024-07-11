@@ -7,7 +7,7 @@ on:
 jobs:
   # Verify frontend that the build runs locally before push to prod
   build-and-run-validation:
-    name: Build and validate Frontend(Pre-Production)
+    name: Build and validate frontend(Pre-Production)
     runs-on: ubuntu-latest
     steps:
         # Step 1: Checkout frontend repository
