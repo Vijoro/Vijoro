@@ -1,0 +1,12 @@
+version: 2
+# Maintaining package-ecosystem weekly for the frontend
+updates:
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+# Maintaining package-ecosystem weekly for the backend
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
