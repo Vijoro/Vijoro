@@ -2,6 +2,8 @@ import express from "express";
 
 const app = express()
 
-app.listen( 1000, ()=> {
+const PORT = 1000
+
+app.listen( PORT, ()=> {
     console.log("running on localhost:1000")
 })
