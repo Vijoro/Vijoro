@@ -1,0 +1,34 @@
+name: Vijoro - PR validation
+
+on:
+  pull_request:
+    branches: 'main'
+
+jobs:
+  # Verify that the build runs locally before push to prod
+  build-and-run-validation:
+    name: 'Build and Validate(Pre-Production)'
+    runs-on: ubuntu-latest
+    steps:
+        # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        # Step 2: Setup Node.js
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.x
+        # Step 3: Cache node_modules
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+        # Step 4: Install dependencies and run build
+      - name: Install dependencies and run build
+        run: |
+          npm install
+          npm run build
+
