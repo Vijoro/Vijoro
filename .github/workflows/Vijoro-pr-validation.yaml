@@ -22,7 +22,7 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
-          path: ~/.npm
+          path: ~/.npm/frontend
           key: ${{ runner.os }}-node-${{ hashFiles('**/vijoro/frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -50,7 +50,7 @@ jobs:
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
-         path: ~/.npm
+         path: ~/.npm/backend
          key: ${{ runner.os }}-node-${{ hashFiles('**/vijoro/backend/package-lock.json') }}
          restore-keys: |
           ${{ runner.os }}-node-
