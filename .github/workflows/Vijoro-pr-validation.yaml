@@ -3,15 +3,15 @@ name: Vijoro - PR validation
 on:
   pull_request:
     branches: 'main'
-
+# *** Jobs can be refined with matrix-strategies ***
 jobs:
-  # Verify that the build runs locally before push to prod
-  build-and-run-validation:
-    name: 'Build and Validate(Pre-Production)'
+  # Verify frontend that the build runs locally before push to prod
+  build-and-run-frontend:
+    name: Build and validate frontend(Pre-production)
     runs-on: ubuntu-latest
     steps:
-        # Step 1: Checkout repository
-      - name: Checkout repository
+        # Step 1: Checkout frontend repository
+      - name: Checkout frontend repository
         uses: actions/checkout@v3
         # Step 2: Setup Node.js
       - name: Install Node.js
@@ -33,3 +33,30 @@ jobs:
           npm install
           npm run build
 
+
+  build-and-run-backend:
+     name: Build and validate backend(Pre-production) 
+     runs-on: 'ubuntu-latest'
+     steps:
+        # Step 1: Checkout repository
+      - name: Checkout backend repository
+        uses: actions/checkout@v3
+        # Step 2: Setup Node.js
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.x
+        # Step 3: Cache node_modules
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+         path: ~/.npm
+         key: ${{ runner.os }}-node-${{ hashFiles('**/vijoro/backend/package-lock.json') }}
+         restore-keys: |
+          ${{ runner.os }}-node-
+        # Step 4: Install dependencies and run build
+      - name: Install dependencies and run build
+        working-directory: backend
+        run: |
+            npm install
+            npm run build
