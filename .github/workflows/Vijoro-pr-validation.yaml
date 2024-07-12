@@ -2,7 +2,7 @@ name: Vijoro - PR validation
 
 on:
   pull_request:
-    branches: 'main'
+    branches: "main"
 # *** Jobs can be refined with matrix-strategies ***
 jobs:
   # Verify frontend that the build runs locally before push to prod
@@ -10,54 +10,69 @@ jobs:
     name: Build and validate frontend(Pre-production)
     runs-on: ubuntu-latest
     steps:
-        # Step 1: Checkout frontend repository
+      # Step 1: Checkout frontend repository
       - name: Checkout frontend repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         # Step 2: Setup Node.js
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
         # Step 3: Cache node_modules
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
-          path: ~/.npm/frontend
-          key: ${{ runner.os }}-node-${{ hashFiles('**/vijoro/frontend/package-lock.json') }}
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**frontend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-        # Step 4: Install dependencies and run build
+
+        # Step 4: List node modules if cache miss
+      - name: List the state of node modules
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        working-directory: frontend
+        run: npm list
+        continue-on-error: true
+      
+        # Step 5: Install dependencies and run build
       - name: Install dependencies and run build
         working-directory: frontend
         run: |
           npm ci
           npm run build
 
-
   build-and-run-backend:
-     name: Build and validate backend(Pre-production) 
-     runs-on: 'ubuntu-latest'
-     steps:
-        # Step 1: Checkout repository
+    name: Build and validate backend(Pre-production)
+    runs-on: "ubuntu-latest"
+    steps:
+      # Step 1: Checkout repository
       - name: Checkout backend repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         # Step 2: Setup Node.js
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 20.x
         # Step 3: Cache node_modules
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
-         path: ~/.npm/backend
-         key: ${{ runner.os }}-node-${{ hashFiles('**/vijoro/backend/package-lock.json') }}
-         restore-keys: |
-          ${{ runner.os }}-node-
-        # Step 4: Install dependencies and run build
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+        # Step 4: List node modules if cache miss
+      - name: List the state of node modules
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        working-directory: backend
+        run: npm list
+        continue-on-error: true
+      
+      # Step 5: Install dependencies and run build
       - name: Install dependencies and run build
         working-directory: backend
         run: |
-            npm ci
-            npm run build
-#test
+          npm ci
+          npm run build
+# test
