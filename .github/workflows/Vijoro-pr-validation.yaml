@@ -30,6 +30,7 @@ jobs:
         # Step 4: List node modules if cache miss
       - name: List the state of node modules
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        working-directory: frontend
         run: npm list
         continue-on-error: true
       
@@ -64,6 +65,7 @@ jobs:
         # Step 4: List node modules if cache miss
       - name: List the state of node modules
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        working-directory: backend
         run: npm list
         continue-on-error: true
       
