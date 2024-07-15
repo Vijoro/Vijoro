@@ -5,7 +5,7 @@ on:
     branches: "main"
 # *** Jobs can be refined with matrix-strategies ***
 jobs:
-  # Verify frontend that the build runs locally before push to prod
+  # Build and verify frontend
   build-and-run-frontend:
     name: Build and validate frontend(Pre-production)
     runs-on: ubuntu-latest
@@ -25,23 +25,15 @@ jobs:
           path: frontend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**frontend/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-frontend-node-
-
-        # Step 4: List node modules if cache miss
-      - name: List the state of node modules
-        id: cache-npm-frontend
-        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        working-directory: frontend
-        run: npm list
-        continue-on-error: true
-      
-        # Step 5: Install dependencies and run build
+            ${{ runner.os }}-frontend-node- 
+        # Step 4: Install dependencies and run build
       - name: Install dependencies and run build
         working-directory: frontend
         run: |
           npm ci
           npm run build
 
+#### Build and verify Backend
   build-and-run-backend:
     name: Build and validate backend(Pre-production)
     runs-on: "ubuntu-latest"
@@ -62,16 +54,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/backend/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-backend-node-
-
-        # Step 4: List node modules if cache miss
-      - name: List the state of node modules
-        id: cache-npm-backend
-        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        working-directory: backend
-        run: npm list
-        continue-on-error: true
-      
-      # Step 5: Install dependencies and run build
+      # Step 4: Install dependencies and run build
       - name: Install dependencies and run build
         working-directory: backend
         run: |
