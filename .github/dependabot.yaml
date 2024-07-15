@@ -10,3 +10,5 @@ updates:
     directory: "/backend"
     schedule:
       interval: "weekly"
+
+#test
