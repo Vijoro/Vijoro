@@ -25,10 +25,11 @@ jobs:
           path: frontend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**frontend/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-frontend-node-
 
         # Step 4: List node modules if cache miss
       - name: List the state of node modules
+        id: cache-npm-frontend
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         working-directory: frontend
         run: npm list
@@ -60,10 +61,11 @@ jobs:
           path: backend/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/backend/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-backend-node-
 
         # Step 4: List node modules if cache miss
       - name: List the state of node modules
+        id: cache-npm-backend
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         working-directory: backend
         run: npm list
