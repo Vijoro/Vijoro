@@ -1,9 +1,8 @@
-import classes from './page.module.css'
-
+import HomePage from "./home/page";
 export default function Home() {
   return (
-    <main>
-      <h1 className={classes.heading}>Hello world!</h1>
-    </main>
+<>
+<HomePage/>
+</>
   );
 }
