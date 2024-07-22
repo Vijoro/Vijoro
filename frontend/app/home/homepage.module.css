@@ -1,0 +1,19 @@
+.heading{
+    display: flex;
+    justify-content: center;
+}
+.cubeWrapper{
+display: flex;
+justify-content: center;
+padding-top: 50px;
+}
+.cube{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    border: 5px solid black;
+    border-radius: 10%;
+    margin: 5px;
+}
